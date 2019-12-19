@@ -6,18 +6,6 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label>First Name</label>
-                        <!--
-                        $v = validation STATE
-                        grabs properties from data object below
-                        $v.firstname
-                        $v.lastname
-                        ...
-
-                        -->
-                        <!--
-                            https://www.youtube.com/watch?v=SW5OfTAxtDY
-                        4:17 of 14:49	Vuelidate (Form Validation) with Vue.js
-                        -->
                         <input type="text" class="form-control" 
                             v-model.trim="$v.firstname.$model" :class="{
                             'is-invalid' :$v.firstname.$error,
@@ -31,6 +19,37 @@
                                     $v.firstname.$params.maxLength.max }} letters.</span>
                             </div>                               
                     </div>
+                    <div class="form-group col-md-6">
+                        <label>Last Name</label>
+                        <input type="text" class="form-control" 
+                            v-model.trim="$v.lastname.$model" :class="{
+                            'is-invalid' :$v.lastname.$error,
+                            'is-valid':!$v.lastname.$invalid }">                            
+                            <div class="valid-feedback">Your last name is valid !</div>                               
+                            <div class="invalid-feedback">
+                                <span v-if="!$v.lastname.required">Last name is required.</span>                                
+                                <span v-if="!$v.lastname.minLength">Last name must have at least {{
+                                    $v.lastname.$params.minLength.min }} letters.</span>                                
+                                <span v-if="!$v.lastname.maxLength">Last name must have at most {{
+                                    $v.lastname.$params.maxLength.max }} letters.</span>
+                            </div>                               
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" class="form-control" 
+                        v-model.number.lazy="$v.age.$model" 
+                        :class="{
+                        'is-invalid' :$v.age.$error,
+                        'is-valid':!$v.age.$invalid }">                            
+                        <div class="valid-feedback">Your last name is valid !</div>                               
+                        <div class="invalid-feedback">
+                            <span v-if="!$v.age.between"> 
+                                Must be between 
+                                {{$v.age.$params.between.min}} and 
+                                {{$v.age.$params.between.max}}                            
+                            </span>
+                        </div>                               
                 </div>
             </form>
         </div>
