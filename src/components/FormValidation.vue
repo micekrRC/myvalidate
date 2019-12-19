@@ -60,7 +60,7 @@
 
 <script>
 
-import { required, minlength, maxlength, between } from 'vuelidate/lib/validators'
+import { required, minLength, maxLength, between } from 'vuelidate/lib/validators'
 
 export default {
     
