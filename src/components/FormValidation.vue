@@ -170,10 +170,22 @@ $v.firstname.$params.maxLength.max
     
 </template>
 
+<!--
+<script>
+import * as mykey from './mylib/myutillib.js'
+export default {    
+}
+</script>
+-->
+
 <script>
 
 //import { required, minLength, maxLength, between, email } from 'vuelidate/lib/validators'
 import { required, minLength, maxLength, email, sameAs, numeric, url } from 'vuelidate/lib/validators'
+
+//import * as mykey from '../mylib/myutillib.js'
+//import mykey from '../mylib/myutillib.js'
+
 
 export default {
     
@@ -268,7 +280,8 @@ export default {
             
             // eslint-disable-next-line no-console
             console.log("show: " + show);
-
+            // rjm-debug
+           // mykey.myLog("test inside toggleShowPassword"); 
 
 
             if (this.showpassword == false) {
