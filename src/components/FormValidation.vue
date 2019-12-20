@@ -2,7 +2,7 @@
     <div class="card">
         <h3 class="card-header text-center">Register Area</h3>        
         <div class="card-body">
-            <form>
+            <form @submit.prevent="submitForm">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label>First Name</label>
@@ -104,6 +104,43 @@
                             <span v-if="!$v.repeatpassword.sameAsPassword">Passwords must be identical.</span>
                         </div>                               
                 </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="number" class="form-control" 
+                        v-model.number.lazy="$v.phone.$model" 
+                        :class="{
+                        'is-invalid' :$v.phone.$error,
+                        'is-valid':!$v.phone.$invalid }">                            
+                        <div class="valid-feedback">Your phone is valid !</div>                               
+                        <div class="invalid-feedback">
+                            <span v-if="!$v.phone.required"> 
+                                phone is required.
+                            </span>
+                            <span v-if="!$v.phone.numeric"> 
+                                This phone number only accepts numeric values
+                            </span>
+
+                        </div>                               
+                </div>
+                <div class="form-group">
+                    <label>Website</label>
+                    <input type="url" class="form-control" 
+                        v-model.trim="$v.url.$model" 
+                        :class="{
+                        'is-invalid' :$v.url.$error,
+                        'is-valid':!$v.url.$invalid }">                            
+                        <div class="valid-feedback">Your url is valid !</div>                               
+                        <div class="invalid-feedback">
+                            <span v-if="!$v.url.required"> 
+                                website is required.
+                            </span>
+                            <span v-if="!$v.url.url"> 
+                                This website is invalid.
+                            </span>
+
+                        </div>                               
+                </div>
+                <button type="submit" class="btn btn-success">Submit {{ submitstatus }}</button>
             </form>
         </div>
 
@@ -114,7 +151,7 @@
 <script>
 
 //import { required, minLength, maxLength, between, email } from 'vuelidate/lib/validators'
-import { required, minLength, maxLength, email, sameAs } from 'vuelidate/lib/validators'
+import { required, minLength, maxLength, email, sameAs, numeric, url } from 'vuelidate/lib/validators'
 
 export default {
     
@@ -130,7 +167,10 @@ export default {
                 email: '',
                 password: '',
                 repeatpassword: '',
-                showpassword: false
+                showpassword: false,
+                phone: '',
+                url: '',
+                submitstatus: null
             }
     },
     validations: {
@@ -184,7 +224,17 @@ export default {
         },
         repeatpassword: {
             sameAsPassword: sameAs('password')
+        },
+        phone: {
+            required,
+            numeric,
+            minLength: minLength(12)
+        },
+        url: {
+            required,
+            url
         }
+
     },
     methods: {
         toggleShowPassword() {
@@ -196,7 +246,18 @@ export default {
                 this.showpassword = false
                 show.type = "password"
             }
+        },
+        submitForm() {
+            this.$v.$touch() 
+            if (this.$v.$invalid) {
+                this.submitstatus = "FAIL"
+            } else {
+                this.submitstatus = "SUCCESS"
+            }
         }
+
+
+
     }
     
 }
