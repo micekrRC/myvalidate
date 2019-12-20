@@ -144,6 +144,28 @@
             </form>
         </div>
 
+        <div>
+            <h3>debug info from vuelidate objects</h3>
+            <div>$v.firstname.$params</div>
+            <div>{{$v.firstname.$params}}</div>
+            <div>$v.firstname.$params</div>
+            <div>{{$v.firstname.$params}}</div>
+<!--
+$v.firstname.required
+$v.firstname.minLength
+$v.firstname.$params.minLength.min
+$v.firstname.maxLength
+$v.firstname.$params.maxLength.max
+
+            <div>$v.firstname.required</div>
+            <div>{{$$v.firstname.required}}</div>
+
+-->
+
+            
+            
+        </div>
+
     </div>
     
 </template>
@@ -240,6 +262,15 @@ export default {
     methods: {
         toggleShowPassword() {
             var show = document.getElementById('password')
+            
+            // eslint-disable-next-line no-console
+            console.log("inside toggleShowPassword()");
+            
+            // eslint-disable-next-line no-console
+            console.log("show: " + show);
+
+
+
             if (this.showpassword == false) {
                 this.showpassword = true
                 show.type = "text"
