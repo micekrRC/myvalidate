@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <h3 class="card-header text-center">Register Area</h3>
+        <h3 class="card-header text-center">Register Area</h3>        
         <div class="card-body">
             <form>
                 <div class="form-row">
@@ -22,8 +22,8 @@
                     <div class="form-group col-md-6">
                         <label>Last Name</label>
                         <input type="text" class="form-control" 
-                            v-model.trim="$v.lastname.$model" :class="{
-                            'is-invalid' :$v.lastname.$error,
+                            v-model.trim="$v.lastname.$model" 
+                            :class="{ 'is-invalid' :$v.lastname.$error,
                             'is-valid':!$v.lastname.$invalid }">                            
                             <div class="valid-feedback">Your last name is valid !</div>                               
                             <div class="invalid-feedback">
@@ -42,7 +42,7 @@
                         :class="{
                         'is-invalid' :$v.age.$error,
                         'is-valid':!$v.age.$invalid }">                            
-                        <div class="valid-feedback">Your last name is valid !</div>                               
+                        <div class="valid-feedback">Your age is valid !</div>                               
                         <div class="invalid-feedback">
                             <span v-if="!$v.age.between"> 
                                 Must be between 
@@ -83,6 +83,15 @@ export default {
             maxLength: maxLength(10)
         },
         lastname: {
+            /*
+            if you do NOT set 
+            required,
+                Your last name is valid !
+            will appear when the form is loaded with NO value in it
+
+
+
+            */
             minLength: minLength(5),
             maxLength: maxLength(12)
         },
