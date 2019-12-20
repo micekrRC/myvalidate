@@ -36,19 +36,39 @@
                     </div>                    
                 </div>
                 <div class="form-group">
-                    <label>Age</label>
-                    <input type="number" class="form-control" 
-                        v-model.number.lazy="$v.age.$model" 
+                    <label>Username</label>
+                    <input type="text" class="form-control" 
+                        v-model.trim="$v.username.$model" 
                         :class="{
-                        'is-invalid' :$v.age.$error,
-                        'is-valid':!$v.age.$invalid }">                            
-                        <div class="valid-feedback">Your age is valid !</div>                               
+                        'is-invalid' :$v.username.$error,
+                        'is-valid':!$v.username.$invalid }">                            
+                        <div class="valid-feedback">Your username is valid !</div>                               
                         <div class="invalid-feedback">
-                            <span v-if="!$v.age.between"> 
-                                Must be between 
-                                {{$v.age.$params.between.min}} and 
-                                {{$v.age.$params.between.max}}                            
+                            <span v-if="!$v.username.required"> 
+                                Username is required.
                             </span>
+                            <span v-if="!$v.username.isUnique"> 
+                                This Username is already registered.
+                            </span>
+
+                        </div>                               
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" 
+                        v-model.trim="$v.email.$model" 
+                        :class="{
+                        'is-invalid' :$v.email.$error,
+                        'is-valid':!$v.email.$invalid }">                            
+                        <div class="valid-feedback">Your email is valid !</div>                               
+                        <div class="invalid-feedback">
+                            <span v-if="!$v.email.required"> 
+                                email is required.
+                            </span>
+                            <span v-if="!$v.email.isUnique"> 
+                                This email is wrong or already registered.
+                            </span>
+
                         </div>                               
                 </div>
             </form>
@@ -60,7 +80,8 @@
 
 <script>
 
-import { required, minLength, maxLength, between, email } from 'vuelidate/lib/validators'
+//import { required, minLength, maxLength, between, email } from 'vuelidate/lib/validators'
+import { required, minLength, maxLength, email } from 'vuelidate/lib/validators'
 
 export default {
     
