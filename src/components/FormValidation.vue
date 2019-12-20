@@ -114,7 +114,7 @@
                         <div class="valid-feedback">Your phone is valid !</div>                               
                         <div class="invalid-feedback">
                             <span v-if="!$v.phone.required"> 
-                                phone is required.
+                                phone number is required.
                             </span>
                             <span v-if="!$v.phone.numeric"> 
                                 This phone number only accepts numeric values
@@ -225,6 +225,7 @@ export default {
         repeatpassword: {
             sameAsPassword: sameAs('password')
         },
+
         phone: {
             required,
             numeric,
