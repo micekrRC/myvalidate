@@ -60,7 +60,7 @@
 
 <script>
 
-import { required, minLength, maxLength, between } from 'vuelidate/lib/validators'
+import { required, minLength, maxLength, between, email } from 'vuelidate/lib/validators'
 
 export default {
     
@@ -72,8 +72,8 @@ export default {
                         // '' = null
                 firstname: '',
                 lastname: '',
-                age: 0                
-
+                username: '',
+                email: ''
             }
     },
     validations: {
@@ -88,16 +88,56 @@ export default {
             required,
                 Your last name is valid !
             will appear when the form is loaded with NO value in it
-
-
-
             */
             minLength: minLength(5),
             maxLength: maxLength(12)
         },
-        age: {
-            between: between(15,40)
+        username: {
+            required,
+            isUnique(value) {
+                if (value === '') return true
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve(typeof value === 'string' && value.length % 2 !== 0)
+                    }, 350 + Math.random() * 300)                      
 
+                })        
+            }
+        },
+        email: {
+            required,
+            email,
+            isUnique(value) {
+                if (value === '') return true
+                /*
+                https://stackoverflow.com/questions/53592444/regex-rule-for-email-validation-is-not-working-in-vuejs
+                regex rule for email validation is not working in vuejs
+                */
+                // eslint-disable-next-line
+                var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                //var email_regex = /^(([]
+                /*
+                    todo
+                add EMAIL reg expresion later
+                7:31 of 14:49
+                in tutorial
+                https://www.youtube.com/watch?v=SW5OfTAxtDY
+                */    
+                return new Promise((resolve) => {
+/*                    
+                    setTimeout(() => {
+                        resolve(typeof value === 'string' && value.length % 2 !== 0)
+                    }, 350 + Math.random() * 300)                      
+*/
+                    setTimeout(() => {
+                        resolve(email_regex.test(value))
+                    }, 350 + Math.random() * 300)                      
+
+
+
+                })        
+            }
         }
     }
     
