@@ -71,6 +71,39 @@
 
                         </div>                               
                 </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" class="form-control" 
+                        v-model.trim="$v.password.$model" 
+                        :class="{
+                        'is-invalid' :$v.password.$error,
+                        'is-valid':!$v.password.$invalid }">                            
+                        <div class="valid-feedback">Your password is valid !</div>                               
+                        <div class="invalid-feedback">
+                            <span v-if="!$v.password.required"> 
+                                password is required.
+                            </span>
+                            <span v-if="!$v.password.minLength"> 
+                                {{ $v.password.$params.minLength.min }} characters minimum.
+                            </span>
+                        </div>                               
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" id="showpassword" class="form-check-input" 
+                    @click="toggleShowPassword" v-model="showpassword">
+                    <label class="form-check-label" for="showpassword">Show password</label>
+                </div>
+                <div class="form-group">
+                    <label>Repeat Password</label>
+                    <input type="password" class="form-control" 
+                        v-model.trim="$v.repeatpassword.$model" :class="{
+                        'is-invalid' :$v.repeatpassword.$error,'is-valid': (password != '') ? 
+                        !$v.repeatpassword.$invalid : '' }">                            
+                        <div class="valid-feedback">Your password is identical !</div>                               
+                        <div class="invalid-feedback">
+                            <span v-if="!$v.repeatpassword.sameAsPassword">Passwords must be identical.</span>
+                        </div>                               
+                </div>
             </form>
         </div>
 
@@ -81,7 +114,7 @@
 <script>
 
 //import { required, minLength, maxLength, between, email } from 'vuelidate/lib/validators'
-import { required, minLength, maxLength, email } from 'vuelidate/lib/validators'
+import { required, minLength, maxLength, email, sameAs } from 'vuelidate/lib/validators'
 
 export default {
     
@@ -94,7 +127,10 @@ export default {
                 firstname: '',
                 lastname: '',
                 username: '',
-                email: ''
+                email: '',
+                password: '',
+                repeatpassword: '',
+                showpassword: false
             }
     },
     validations: {
@@ -130,27 +166,9 @@ export default {
             email,
             isUnique(value) {
                 if (value === '') return true
-                /*
-                https://stackoverflow.com/questions/53592444/regex-rule-for-email-validation-is-not-working-in-vuejs
-                regex rule for email validation is not working in vuejs
-                */
                 // eslint-disable-next-line
                 var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-                //var email_regex = /^(([]
-                /*
-                    todo
-                add EMAIL reg expresion later
-                7:31 of 14:49
-                in tutorial
-                https://www.youtube.com/watch?v=SW5OfTAxtDY
-                */    
                 return new Promise((resolve) => {
-/*                    
-                    setTimeout(() => {
-                        resolve(typeof value === 'string' && value.length % 2 !== 0)
-                    }, 350 + Math.random() * 300)                      
-*/
                     setTimeout(() => {
                         resolve(email_regex.test(value))
                     }, 350 + Math.random() * 300)                      
@@ -158,6 +176,25 @@ export default {
 
 
                 })        
+            }
+        },
+        password: {
+            required,
+            minLength: minLength(8)
+        },
+        repeatpassword: {
+            sameAsPassword: sameAs('password')
+        }
+    },
+    methods: {
+        toggleShowPassword() {
+            var show = document.getElementById('password')
+            if (this.showpassword == false) {
+                this.showpassword = true
+                show.type = "text"
+            } else {
+                this.showpassword = false
+                show.type = "password"
             }
         }
     }
